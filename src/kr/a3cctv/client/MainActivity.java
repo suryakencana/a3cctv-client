@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.LinearLayout;
 
 import com.google.android.gcm.GCMRegistrar;
 
@@ -16,11 +17,11 @@ public class MainActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.layout_camera);
         
-        Preview view = new Preview(this);
-        
-        setContentView(view);
-        
+        LinearLayout previewContainer = (LinearLayout) findViewById(R.id.previewContainer);
+        Preview preview = new Preview(this);
+        previewContainer.addView(preview);          
         gcmRegister();
     }
 
