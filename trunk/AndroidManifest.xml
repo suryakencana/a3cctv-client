@@ -99,5 +99,4 @@
 
         <service android:name=".GCMIntentService" />
     </application>
-
 </manifest>
