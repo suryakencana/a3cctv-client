@@ -7,6 +7,8 @@ import android.os.Message;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 public class WebViewActivity extends Activity{
 
@@ -33,6 +35,8 @@ public class WebViewActivity extends Activity{
 		
 		setContentView(R.layout.layout_webview);
 		
+		final ProgressBar progress = (ProgressBar)findViewById(R.id.progress);
+		
 		webView = (WebView)findViewById(R.id.webview);
 		webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 		WebSettings websetting = webView.getSettings();
@@ -43,8 +47,16 @@ public class WebViewActivity extends Activity{
 		websetting.setSupportZoom(true);
 		
 		webView.loadUrl(A3_URL);
-		
-		refreshSite.sendEmptyMessageDelayed(0, REFRESH_INTERVAL);
+		webView.setWebViewClient(new WebViewClient(){
+
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				super.onPageFinished(view, url);
+				progress.setVisibility(View.GONE);
+			}
+			
+		});
+//		refreshSite.sendEmptyMessageDelayed(0, REFRESH_INTERVAL);
 		
 	}
 }
