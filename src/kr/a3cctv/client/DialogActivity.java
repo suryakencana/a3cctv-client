@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.Bundle;
 
 public class DialogActivity extends Activity {
@@ -23,6 +24,7 @@ public class DialogActivity extends Activity {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
+				startActivity(new Intent(getApplicationContext(), WebViewActivity.class));
 				finish();
 			}
 		})
