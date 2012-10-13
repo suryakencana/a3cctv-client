@@ -116,6 +116,15 @@ public class ArduinoActivity extends Activity implements Runnable {
 		// }
 		// });
 	}
+	
+	
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		preview.disableOel();
+	}
+
 
 	@Override
 	public Object onRetainNonConfigurationInstance() {
