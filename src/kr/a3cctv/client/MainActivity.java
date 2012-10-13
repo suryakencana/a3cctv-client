@@ -1,7 +1,7 @@
 package kr.a3cctv.client;
 
-import kr.a3cctv.client.camera.Preview;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,11 +16,21 @@ public class MainActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Preview preview = new Preview(this);
-		setContentView(preview);
+		
 		gcmRegister();
 		
-//		startActivity(new Intent(getApplicationContext(), WebViewActivity.class));
+		if (Util.isGoogleTV(this) && !Util.hasCamera(this)) {
+			//Only viewer
+			Intent i = new Intent(this, WebViewActivity.class);
+			startActivity(i);
+		} else {
+			//
+			Intent i = new Intent(this, CameraActivity.class);
+			startActivity(i);
+		}
+		
+		finish();
+		
 	}
 
 	@Override
@@ -39,6 +49,7 @@ public class MainActivity extends Activity {
 			GCMRegistrar.register(this, SENDER_ID);
 		} else {
 			Log.v(TAG, "Already registered");
+			Log.d("Ryukw82",GCMRegistrar.getRegistrationId(this));
 		}
 	}
 }
