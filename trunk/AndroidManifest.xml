@@ -62,6 +62,8 @@
                 android:resource="@xml/accessory_filter" />
         </activity>
         
+        <activity android:name=".DialogActivity"></activity>
+        
         <receiver
             android:name="com.google.android.gcm.GCMBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >

@@ -1,10 +1,8 @@
 package kr.a3cctv.client;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gcm.GCMBaseIntentService;
 
@@ -37,10 +35,7 @@ public class GCMIntentService extends GCMBaseIntentService{
 		showToast(context, "서버에서 메시지를 받지 않게 되었습니다");
 	}
 	private void showDialog(Context context, Intent intent){
-		new AlertDialog.Builder(context)
-		.setMessage("cctv 메시지를 받았어요.")
-		.setPositiveButton("OK", null)
-		.show();
+		startActivity(new Intent(context, DialogActivity.class));
 	}
 	
 	private void showToast(Context context, String msg){
