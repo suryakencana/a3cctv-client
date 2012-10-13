@@ -19,6 +19,8 @@ public class MainActivity extends Activity {
 		Preview preview = new Preview(this);
 		setContentView(preview);
 		gcmRegister();
+		
+//		startActivity(new Intent(getApplicationContext(), WebViewActivity.class));
 	}
 
 	@Override
