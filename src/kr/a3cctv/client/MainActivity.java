@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.google.android.gcm.GCMRegistrar;
 
@@ -23,6 +24,7 @@ public class MainActivity extends Activity {
 			//Only viewer
 			Intent i = new Intent(this, WebViewActivity.class);
 			startActivity(i);
+			
 		} else {
 			//
 			Intent i = new Intent(this, CameraActivity.class);

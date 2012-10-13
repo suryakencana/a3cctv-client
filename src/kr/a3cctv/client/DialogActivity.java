@@ -12,25 +12,9 @@ public class DialogActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		setContentView(R.layout.layout_gcm);
 	}
 
-	@Override
-	protected void onStart() {
-		super.onStart();
-		new AlertDialog.Builder(this)
-		.setMessage(R.string.gcm_receive)
-		.setPositiveButton("OK", new OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				startActivity(new Intent(getApplicationContext(), WebViewActivity.class));
-				finish();
-			}
-		})
-		.setNegativeButton("NO", null)
-		.show();
-		
-	}
+	
 	
 }
