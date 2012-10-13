@@ -2,7 +2,7 @@ package kr.a3cctv.client;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gcm.GCMBaseIntentService;
 
@@ -35,11 +35,14 @@ public class GCMIntentService extends GCMBaseIntentService{
 		showToast(context, "서버에서 메시지를 받지 않게 되었습니다");
 	}
 	private void showDialog(Context context, Intent intent){
-		startActivity(new Intent(context, DialogActivity.class));
+		Intent i = new Intent(context, DialogActivity.class);
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(i);
+		
 	}
 	
 	private void showToast(Context context, String msg){
-		Log.d("test", msg);
-//		Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+//		Log.d("test", msg);
+		Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
 	}
 }
