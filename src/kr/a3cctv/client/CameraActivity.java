@@ -6,14 +6,26 @@ import android.os.Bundle;
 
 public class CameraActivity extends Activity {
 
+	private Preview preview;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		Preview preview = new Preview(this);
+		preview = new Preview(this);
 		setContentView(preview);
+		
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		preview.disableOel();
 	}
 
+	@Override
+	protected void onStop() {
+		super.onStop();
+	}
 	
 	
 	
