@@ -5,7 +5,7 @@ AndroidAccessory acc("A3CCTV Project Team",      // Manufacturer
                      "A3CCTV",                  // Model
                      "A3CCTV",                  // Description
                      "1.0",                       // Version
-                     "http://kiwook.pe.kr",       // URI
+                     "https://play.google.com/store/apps/details?id=kr.a3cctv.client",       // URI
                      "00000000000001");           // Serial
 
 int lightPin = 0;
@@ -14,9 +14,10 @@ int ledPin = 9;
 int settingTemp = -1;
 
 boolean isConnected = false;
+boolean isInit = false;
 
 void setup() {
-  Serial.begin(9600);
+//  Serial.begin(9600);
   pinMode(ledPin, OUTPUT);
   acc.powerOn();  
 }
@@ -31,31 +32,42 @@ void loop() {
     lightLevel = map(lightLevel, 0, 900, 0, 255);
     lightLevel = constrain(lightLevel, 0, 255);
     
-    if( settingTemp == -1 ) {
-
-      Serial.println(lightLevel);  
-      settingTemp = lightLevel;  
-
-    } else {
+//    if( settingTemp == -1 ) {
+//
+//      Serial.println(li/ghtLevel);  
+//      settingTemp = lightLevel;  
+//
+//    } else {
       
-      byte data[2];
-      data[0] = 0x0;
-      if(lightLevel > 120){
+      byte data[1];
+
+      if(lightLevel > 60){
         digitalWrite(ledPin, HIGH);  
-        data[1] = 0x1;
-        Serial.println("ON");  
+        data[0] = 1;
+//        Serial.println("ON");  
       } else {
         digitalWrite(ledPin, LOW);  
-        data[1] = 0x0;
-        Serial.println("OFF");
+        data[0] = 0;
+//        Serial.println("OFF");
       }
-      acc.write(data, 2);
-    }
+      
+//      data[0] = 9;
+
+      if (isInit) {
+         acc.write(data, 1);
+      } else {
+         delay(5000);
+          acc.write(data, 1);
+         isInit = true;
+      }
+//    }
     
     
   } else {
    
-    Serial.println("____");  
+//    Serial.println("____");  
 
   }
+ 
+ delay(1000);
 }

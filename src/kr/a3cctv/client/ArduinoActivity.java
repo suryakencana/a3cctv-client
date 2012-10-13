@@ -249,7 +249,7 @@ public class ArduinoActivity extends Activity implements Runnable {
 				TextView buttonState = (TextView) findViewById(R.id.tv1);
 				buttonState.setText((String)msg.obj);
 				if(msg.obj.toString().equals("SHOT")) {
-//					preview.shot();
+					preview.shot();
 				}
 				break;
 			}
