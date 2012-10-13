@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import kr.a3cctv.client.camera.Preview;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -19,6 +20,7 @@ import android.os.Message;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +37,8 @@ public class ArduinoActivity extends Activity implements Runnable {
 	FileInputStream mInputStream;
 	FileOutputStream mOutputStream;
 
+	Preview preview;
+	
 	private PendingIntent mPermissionIntent;
 
 	private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
@@ -85,6 +89,10 @@ public class ArduinoActivity extends Activity implements Runnable {
 			mAccessory = (UsbAccessory) getLastNonConfigurationInstance();
 			openAccessory(mAccessory);
 		}
+		LinearLayout previewContainer = (LinearLayout) findViewById(R.id.previewContainer);
+		preview = new Preview(this);
+		previewContainer.addView(preview);
+		
 
 		// CheckBox ledButton = (CheckBox) findViewById(R.id.ledCheckBox);
 		// ledButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -191,8 +199,6 @@ public class ArduinoActivity extends Activity implements Runnable {
 		}
 	}
 
-	private int count = 0;
-	
 	/**
 	 * Listen accessory's voice
 	 */
@@ -201,7 +207,7 @@ public class ArduinoActivity extends Activity implements Runnable {
 
 		int ret = 0;
 		byte[] buffer = new byte[16384];
-		int i;
+		
 
 		while (ret >= 0) {
 			try {
@@ -210,29 +216,19 @@ public class ArduinoActivity extends Activity implements Runnable {
 				break;
 			}
 
-			i = 0;
-			while (i < ret) {
-				int len = ret - i;
-				
-				switch (buffer[i]) {
-//				case 0x1:
-//					if (len >= 2) {
-//						Message m = Message.obtain(mHandler, MESSAGE_ECHO);
-//						m.obj = Integer.valueOf(buffer[i + 1]);
-//						mHandler.sendMessage(m);
-//					}
-//					i += 2;
-//					break;
-//					
-				default:
-					Message m = Message.obtain(mHandler, MESSAGE_ECHO);
-//					m.obj = Integer.valueOf(buffer[i]);
-					m.obj = "ret "+ret +"buffer "+buffer[0]+"count "+count;
-					count++;
-					mHandler.sendMessage(m);
-					break;
-				}
+			Message m = Message.obtain(mHandler, MESSAGE_ECHO);
+			
+			switch (buffer[0]) {
+			case 1:
+				m.obj = "SHOT";
+				break;
+
+			default:
+				m.obj = "ret " + ret + "buffer " + buffer[0] ;
+				break;
 			}
+			
+			mHandler.sendMessage(m);
 		}
 	}
 
@@ -243,11 +239,9 @@ public class ArduinoActivity extends Activity implements Runnable {
 			case MESSAGE_ECHO:
 				TextView buttonState = (TextView) findViewById(R.id.tv1);
 				buttonState.setText((String)msg.obj);
-//				if ((Integer) msg.obj > 0) {
-//					buttonState.setText("Echo : ON");
-//				} else {
-//					buttonState.setText("Echo : OFF");
-//				}
+				if(msg.obj.toString().equals("SHOT")) {
+					preview.shot();
+				}
 				break;
 			}
 		}
