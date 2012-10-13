@@ -137,5 +137,21 @@ public class Preview extends SurfaceView implements SurfaceHolder.Callback,
 			}
 		}
 	};
+	
+	
+	public void shot() {
+		Camera.Parameters params = camera.getParameters();
+		
+		List<Camera.Size> sizes = params.getSupportedPictureSizes();
+		for (Camera.Size size : sizes) {
+			if (size.width <= 800 || size.height <= 800) {
+				params.setPictureSize(size.width, size.height);
+				params.setJpegQuality(70);
+				break;
+			}
+		}
+		camera.setParameters(params);
+		camera.autoFocus(autoFocusCallback);
+	}
 
 }
