@@ -41,7 +41,7 @@ public class WebViewActivity extends Activity{
 		webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 		WebSettings websetting = webView.getSettings();
 		websetting.setJavaScriptEnabled(true);
-		websetting.setCacheMode(WebSettings.LOAD_DEFAULT);
+		websetting.setCacheMode(WebSettings.LOAD_NO_CACHE);
 		websetting.setBuiltInZoomControls(false);
 		websetting.setSaveFormData(false);
 		websetting.setSupportZoom(true);

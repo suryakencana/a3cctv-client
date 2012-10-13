@@ -34,6 +34,9 @@ public class Preview extends SurfaceView implements SurfaceHolder.Callback,
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
 		
+	}
+	
+	public void enableOel(){
 		oel = new OrientationEventListener(
 				getContext()) {
 
@@ -50,9 +53,12 @@ public class Preview extends SurfaceView implements SurfaceHolder.Callback,
 				} else { // back-facing camera
 					rotation = (info.orientation + orientation) % 360;
 				}
-				Camera.Parameters parameters = camera.getParameters();
-				parameters.setRotation(rotation);
-				camera.setParameters(parameters);
+//				if(camera!=null){
+					Camera.Parameters parameters = camera.getParameters();
+					parameters.setRotation(rotation);
+					camera.setParameters(parameters);
+//					camera.setDisplayOrientation(rotation);
+//				}
 			}
 		};
 
@@ -81,7 +87,8 @@ public class Preview extends SurfaceView implements SurfaceHolder.Callback,
 		camera = Camera.open();
 		try {
 			camera.setPreviewDisplay(holder);
-			// camera.setDisplayOrientation(90);
+			enableOel();
+//			 camera.setDisplayOrientation(90);
 		} catch (IOException e) {
 			camera.release();
 			camera = null;
@@ -121,6 +128,7 @@ public class Preview extends SurfaceView implements SurfaceHolder.Callback,
 			}
 			camera.setParameters(params);
 			camera.autoFocus(autoFocusCallback);
+			
 		}
 		return true;
 	}
