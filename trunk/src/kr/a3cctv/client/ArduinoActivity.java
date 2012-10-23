@@ -38,7 +38,7 @@ public class ArduinoActivity extends Activity implements Runnable {
 	FileOutputStream mOutputStream;
 
 	Preview preview;
-	
+
 	private PendingIntent mPermissionIntent;
 
 	private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
@@ -79,8 +79,9 @@ public class ArduinoActivity extends Activity implements Runnable {
 		setContentView(R.layout.layout_arduino);
 
 		mUsbManager = (UsbManager) getSystemService(Context.USB_SERVICE);
-		mPermissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
-		
+		mPermissionIntent = PendingIntent.getBroadcast(this, 0, new Intent(
+				ACTION_USB_PERMISSION), 0);
+
 		IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
 		filter.addAction(UsbManager.ACTION_USB_ACCESSORY_DETACHED);
 		registerReceiver(mUsbReceiver, filter);
@@ -92,7 +93,6 @@ public class ArduinoActivity extends Activity implements Runnable {
 		LinearLayout previewContainer = (LinearLayout) findViewById(R.id.previewContainer);
 		preview = new Preview(this);
 		previewContainer.addView(preview);
-		
 
 		// CheckBox ledButton = (CheckBox) findViewById(R.id.ledCheckBox);
 		// ledButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -116,15 +116,12 @@ public class ArduinoActivity extends Activity implements Runnable {
 		// }
 		// });
 	}
-	
-	
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		preview.disableOel();
 	}
-
 
 	@Override
 	public Object onRetainNonConfigurationInstance() {
@@ -216,7 +213,6 @@ public class ArduinoActivity extends Activity implements Runnable {
 
 		int ret = 0;
 		byte[] buffer = new byte[16384];
-		
 
 		while (ret >= 0) {
 			try {
@@ -226,17 +222,17 @@ public class ArduinoActivity extends Activity implements Runnable {
 			}
 
 			Message m = Message.obtain(mHandler, MESSAGE_ECHO);
-			
+
 			switch (buffer[0]) {
 			case 1:
 				m.obj = "SHOT";
 				break;
 
 			default:
-				m.obj = "ret " + ret + "buffer " + buffer[0] ;
+				m.obj = "ret " + ret + "buffer " + buffer[0];
 				break;
 			}
-			
+
 			mHandler.sendMessage(m);
 		}
 	}
@@ -247,15 +243,15 @@ public class ArduinoActivity extends Activity implements Runnable {
 			switch (msg.what) {
 			case MESSAGE_ECHO:
 				TextView buttonState = (TextView) findViewById(R.id.tv1);
-				buttonState.setText((String)msg.obj);
-				if(msg.obj.toString().equals("SHOT")) {
+				buttonState.setText((String) msg.obj);
+				if (msg.obj.toString().equals("SHOT")) {
 					preview.shot();
 				}
 				break;
 			}
 		}
 	};
-	
+
 	private void showToast(String str) {
 		Toast.makeText(ArduinoActivity.this, str, Toast.LENGTH_SHORT).show();
 	}
