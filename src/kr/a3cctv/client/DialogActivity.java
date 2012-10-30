@@ -33,7 +33,6 @@ public class DialogActivity extends Activity {
 				@Override
 				public void onClick(View v) {
 					moveWebview();
-
 				}
 			});
 
