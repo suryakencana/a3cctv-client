@@ -114,22 +114,7 @@ public class Preview extends SurfaceView implements SurfaceHolder.Callback,
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-			Camera.Parameters params = camera.getParameters();
-
-			List<Camera.Size> sizes = params.getSupportedPictureSizes();
-			for (Camera.Size size : sizes) {
-				if (size.width <= 800 || size.height <= 800) {
-					params.setPictureSize(size.width, size.height);
-					params.setJpegQuality(70);
-					break;
-				}
-			}
-			camera.setParameters(params);
-			camera.autoFocus(autoFocusCallback);
-			
-		}
+		if (event.getAction() == MotionEvent.ACTION_DOWN) shot();
 		return true;
 	}
 
@@ -140,9 +125,7 @@ public class Preview extends SurfaceView implements SurfaceHolder.Callback,
 	AutoFocusCallback autoFocusCallback = new AutoFocusCallback() {
 
 		public void onAutoFocus(boolean success, Camera camera) {
-			if (success) {
-				takePicture(camera);
-			}
+			if (success) takePicture(camera);
 		}
 	};
 	
