@@ -29,11 +29,14 @@ public class LoginActivity extends Activity {
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
 				//TODO getToken. 으잉.. ㅋㅋ get Param 더 이쁘게 못얻나 ㅋ
-				String token =  url.substring(url.indexOf("?=") + 1);
-				Log.d("test", "url : " + url +  ", token " + token);
-				if(token!=null){
-					//Util.setToken(getApplicationContext(), token);
-					gcmRegister(); //로그인 되면 ~ 리시버들로 등록. 회원가입은 ? ㅎ
+				
+				if(url.contains("https://accounts.google.com/ServiceLogin?service=ah&passive=true&continue=https://appengine.google.com/_ah/conflogin%3Fcontinue%3Dhttp://a3-cctv.appspot.com/&ltmpl=gm&shdf=ChoLEgZhaG5hbWUaDkFwcGVuZ2luZSBDQ1RWDBICYWgiFHWpS6DcbatCqOUbYKk30Bb5vagGKAEyFBzu0qd8MMheFVXA1HDJSSum7nD6")){
+					String token =  url.substring(url.lastIndexOf("=")); //마지막 인자가 토큰
+					Log.d("test", "url : " + url +  ", token " + token);
+					if(token!=null){
+						//Util.setToken(getApplicationContext(), token);
+						gcmRegister(); //로그인 되면 ~ 리시버들로 등록. 회원가입은 ? ㅎ
+					}
 				}
 				return super.shouldOverrideUrlLoading(view, url);
 			}
@@ -48,8 +51,7 @@ public class LoginActivity extends Activity {
 		websetting.setSavePassword(false);
 		websetting.setSupportZoom(false);
 		
-//		TODO server's URL
-//		webView.loadUrl(url);
+		webView.loadUrl("https://docs.google.com/presentation/d/1-L5Tmckg3c5CIB8_cyBUmkeSoos1C9Ue1nyOBlROiZo/edit");
 	}
 	
 	private void gcmRegister() {
