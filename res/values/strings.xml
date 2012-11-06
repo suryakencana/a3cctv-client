@@ -6,4 +6,9 @@
     <string name="title_activity_main">MainActivity</string>
 
     <string name="gcm_receive">움직임을 감지했습니다!\n페이지로 이동하시겠어요?</string>
+    
+    <string name="login">login</string>
+    <string name="login_id">id</string>
+    <string name="login_pass">password</string>
+    <string name="login_signup">회원가입</string>
 </resources>
