@@ -22,7 +22,7 @@ public class LoginActivity extends Activity {
 	}
 
 	private void findViews(){
-		WebView webView = (WebView) findViewById(R.id.webview);
+		WebView webView = (WebView) findViewById(R.id.login_webview);
 		webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 		webView.setWebViewClient(new WebViewClient(){
 
@@ -30,17 +30,35 @@ public class LoginActivity extends Activity {
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
 				//TODO getToken. 으잉.. ㅋㅋ get Param 더 이쁘게 못얻나 ㅋ
 				
-				if(url.contains("https://accounts.google.com/ServiceLogin?service=ah&passive=true&continue=https://appengine.google.com/_ah/conflogin%3Fcontinue%3Dhttp://a3-cctv.appspot.com/&ltmpl=gm&shdf=ChoLEgZhaG5hbWUaDkFwcGVuZ2luZSBDQ1RWDBICYWgiFHWpS6DcbatCqOUbYKk30Bb5vagGKAEyFBzu0qd8MMheFVXA1HDJSSum7nD6")){
-					String token =  url.substring(url.lastIndexOf("=")); //마지막 인자가 토큰
-					Log.d("test", "url : " + url +  ", token " + token);
-					if(token!=null){
-						//Util.setToken(getApplicationContext(), token);
+				if(url.contains("account.google.com")) {
+					String auth = Util.getToken(getApplicationContext());
+					if (auth != null) {
+						Log.d("test", "auth: " + auth);
+						super.shouldOverrideUrlLoading(view, "https://appengine.google.com/_ah/conflogin?continue=http://a3-cctv.appspot.com/&auth=" + auth);
+					} else {
+						return super.shouldOverrideUrlLoading(view, url);
+					}
+				} else {
+					if(url.contains("auth=")){
+						String auth = url.substring(url.lastIndexOf("auth=")+5); //마지막 인자가 토큰
+						Util.setToken(getApplicationContext(), auth);
 						gcmRegister(); //로그인 되면 ~ 리시버들로 등록. 회원가입은 ? ㅎ
+						
+						setResult(RESULT_OK);
+						finish();
 					}
 				}
-				return super.shouldOverrideUrlLoading(view, url);
+				return false;
 			}
 			
+			@Override
+			public void onPageFinished(WebView view, String url) {
+				super.onPageFinished(view, url);
+				if (!url.contains("accounts.google.com") && url.contains("a3-cctv.appspot.com")) {
+					setResult(RESULT_OK);
+					finish();
+				}
+			}
 		});
 		
 		WebSettings websetting = webView.getSettings();
@@ -51,7 +69,7 @@ public class LoginActivity extends Activity {
 		websetting.setSavePassword(false);
 		websetting.setSupportZoom(false);
 		
-		webView.loadUrl("https://docs.google.com/presentation/d/1-L5Tmckg3c5CIB8_cyBUmkeSoos1C9Ue1nyOBlROiZo/edit");
+		webView.loadUrl("http://a3-cctv.appspot.com");
 	}
 	
 	private void gcmRegister() {
@@ -67,6 +85,5 @@ public class LoginActivity extends Activity {
 			Log.d("Ryukw82",GCMRegistrar.getRegistrationId(this));
 		}
 	}
-
 	
 }

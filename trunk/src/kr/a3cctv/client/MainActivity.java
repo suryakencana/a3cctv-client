@@ -2,7 +2,6 @@ package kr.a3cctv.client;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 
@@ -11,29 +10,26 @@ public class MainActivity extends Activity {
 	public static final String TAG = "hackfair";
 	
 	private static final int REQ_LOGIN = 0;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		String token = Util.getToken(getApplicationContext());
-		if(token==null){
-			Util.showToast(getApplicationContext(), "유저 data 없습니다 회원가입/로그인을 위한 전환."); 
-			startActivityForResult(new Intent(this, LoginActivity.class), REQ_LOGIN );
-		}
-		else{
-			Util.showToast(getApplicationContext(), "유저 data 발견. 다음으로 넘어갑니다."); 
-			startNextActivity();
-		}
-		
+		Intent intent = new Intent(this, LoginActivity.class);
+		startActivityForResult(intent, REQ_LOGIN);
 	}
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		
-		switch(requestCode){
-		case REQ_LOGIN :
+
+		switch (requestCode) {
+		case REQ_LOGIN:
+			switch(resultCode) {
+			case RESULT_OK:
+				startNextActivity();
+				break;
+			}
 			break;
 		}
 	}
