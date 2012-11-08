@@ -29,10 +29,10 @@ public class GCMIntentService extends GCMBaseIntentService{
 
 	//우리 서버로 등록.
 	private void registerToServer(Context context, String resId){
-		showToast(context, "서버에서 메시지를 받도록 등록되었습니다");
+//		showToast(context, "서버에서 메시지를 받도록 등록되었습니다");
 	}
 	private void unRegisterToServer(Context context, String resId){
-		showToast(context, "서버에서 메시지를 받지 않게 되었습니다");
+//		showToast(context, "서버에서 메시지를 받지 않게 되었습니다");
 	}
 	private void showDialog(Context context, Intent intent){
 		Intent i = new Intent(context, DialogActivity.class);

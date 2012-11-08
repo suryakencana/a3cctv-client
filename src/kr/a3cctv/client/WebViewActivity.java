@@ -12,8 +12,7 @@ import android.widget.ProgressBar;
 
 public class WebViewActivity extends Activity{
 
-	private static final String A3_URL = "http://a3-cctv.appspot.com";
-	private static final int REFRESH_INTERVAL = 60000;
+	private static final int REFRESH_INTERVAL = 5 * 60 * 1000;
 	
 	private WebView webView;
 	
@@ -23,7 +22,7 @@ public class WebViewActivity extends Activity{
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
 			if(webView!=null){
-				webView.loadUrl(A3_URL);
+				webView.loadUrl(Util.SERVER_DOMAIN);
 				sendEmptyMessageDelayed(0, REFRESH_INTERVAL);
 			}
 		}
@@ -46,7 +45,7 @@ public class WebViewActivity extends Activity{
 		websetting.setSaveFormData(false);
 		websetting.setSupportZoom(true);
 		
-		webView.loadUrl(A3_URL);
+		webView.loadUrl(Util.SERVER_DOMAIN);
 		webView.setWebViewClient(new WebViewClient(){
 
 			@Override

@@ -14,9 +14,7 @@ public class MainActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		Intent intent = new Intent(this, LoginActivity.class);
-		startActivityForResult(intent, REQ_LOGIN);
+		startActivityForResult(new Intent(this, LoginActivity.class), REQ_LOGIN);
 	}
 	
 	@Override
@@ -28,6 +26,9 @@ public class MainActivity extends Activity {
 			switch(resultCode) {
 			case RESULT_OK:
 				startNextActivity();
+				break;
+			case RESULT_CANCELED:
+				startActivityForResult(new Intent(this, LoginActivity.class), REQ_LOGIN);
 				break;
 			}
 			break;

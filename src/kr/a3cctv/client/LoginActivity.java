@@ -34,7 +34,7 @@ public class LoginActivity extends Activity {
 					String auth = Util.getToken(getApplicationContext());
 					if (auth != null) {
 						Log.d("test", "auth: " + auth);
-						super.shouldOverrideUrlLoading(view, "https://appengine.google.com/_ah/conflogin?continue=http://a3-cctv.appspot.com/&auth=" + auth);
+						super.shouldOverrideUrlLoading(view, "https://appengine.google.com/_ah/conflogin?continue="+Util.SERVER_DOMAIN+"/&auth=" + auth);
 					} else {
 						return super.shouldOverrideUrlLoading(view, url);
 					}
@@ -54,9 +54,11 @@ public class LoginActivity extends Activity {
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
-				if (!url.contains("accounts.google.com") && url.contains("a3-cctv.appspot.com")) {
-					setResult(RESULT_OK);
-					finish();
+				if (!url.contains("accounts.google.com") && url.contains(Util.SERVER_DOMAIN)) {
+					if (Util.getToken(getApplicationContext()) != null) {
+						setResult(RESULT_OK);
+						finish();
+					}
 				}
 			}
 		});
@@ -69,7 +71,7 @@ public class LoginActivity extends Activity {
 		websetting.setSavePassword(false);
 		websetting.setSupportZoom(false);
 		
-		webView.loadUrl("http://a3-cctv.appspot.com");
+		webView.loadUrl(Util.SERVER_DOMAIN);
 	}
 	
 	private void gcmRegister() {
