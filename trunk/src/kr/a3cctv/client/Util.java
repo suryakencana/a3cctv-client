@@ -30,6 +30,7 @@ public class Util {
 	public static void setToken(Context context, String token){
 		Editor pref = loadPref(context).edit(); 
 		pref.putString(KEY_TOKEN, token);
+		pref.commit();
 	}
 	public static SharedPreferences loadPref(Context context){
 		return context.getSharedPreferences(SHARED_DATA, Context.MODE_PRIVATE);
