@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 public class Util {
 	
+	public static final String SERVER_DOMAIN = "http://a3-cctv.appspot.com";
 	public static final String SHARED_DATA = "a3shared";
 	public static final String KEY_TOKEN = "token";
 	
