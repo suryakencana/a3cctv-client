@@ -26,6 +26,10 @@ import android.widget.Toast;
 
 public class ArduinoActivity extends Activity implements Runnable {
 
+	private final int STATUS_READY = 0;
+	private final int STATUS_SHOT = 1;
+	private final int STATUS_WARMUP = 2;
+
 	private static final String TAG = "A3CCTV_CLIENT";
 	private static final String ACTION_USB_PERMISSION = "A3CCTV.USB_PERMISSION";
 	private static final int MESSAGE_ECHO = 1;
@@ -224,8 +228,14 @@ public class ArduinoActivity extends Activity implements Runnable {
 			Message m = Message.obtain(mHandler, MESSAGE_ECHO);
 
 			switch (buffer[0]) {
-			case 1:
+			case STATUS_SHOT:
 				m.obj = "SHOT";
+				break;
+			case STATUS_WARMUP:
+				m.obj = "WARM UP";
+				break;
+			case STATUS_READY:
+				m.obj = "READY";
 				break;
 
 			default:
@@ -252,7 +262,4 @@ public class ArduinoActivity extends Activity implements Runnable {
 		}
 	};
 
-	private void showToast(String str) {
-		Toast.makeText(ArduinoActivity.this, str, Toast.LENGTH_SHORT).show();
-	}
 }
