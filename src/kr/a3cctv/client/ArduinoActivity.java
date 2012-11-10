@@ -18,6 +18,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.ParcelFileDescriptor;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.LinearLayout;
@@ -44,6 +46,8 @@ public class ArduinoActivity extends Activity implements Runnable {
 	Preview preview;
 
 	private PendingIntent mPermissionIntent;
+
+	private WakeLock mWakeLock;
 
 	private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
 
@@ -97,28 +101,6 @@ public class ArduinoActivity extends Activity implements Runnable {
 		LinearLayout previewContainer = (LinearLayout) findViewById(R.id.previewContainer);
 		preview = new Preview(this);
 		previewContainer.addView(preview);
-
-		// CheckBox ledButton = (CheckBox) findViewById(R.id.ledCheckBox);
-		// ledButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-		// @Override
-		// public void onCheckedChanged(CompoundButton buttonView,
-		// boolean isChecked) {
-		// if (mOutputStream == null) {
-		// return;
-		// }
-		// // Send command to accessory
-		// byte[] buffer = new byte[2];
-		// buffer[0] = COMMAND_LED;
-		// buffer[1] = isChecked ? (byte) 1 : (byte) 0;
-		//
-		// try {
-		// mOutputStream.write(buffer);
-		// } catch (IOException e) {
-		// Log.e(TAG, "write failed", e);
-		// }
-		//
-		// }
-		// });
 	}
 
 	@Override
@@ -166,6 +148,13 @@ public class ArduinoActivity extends Activity implements Runnable {
 	@Override
 	public void onDestroy() {
 		unregisterReceiver(mUsbReceiver);
+
+		if (mWakeLock != null) {
+			if (mWakeLock.isHeld()) {
+				mWakeLock.release();
+			}
+		}
+
 		super.onDestroy();
 	}
 
@@ -261,5 +250,14 @@ public class ArduinoActivity extends Activity implements Runnable {
 			}
 		}
 	};
+
+	private void wakeUpLocker() {
+		final PowerManager powerMgr = (PowerManager) getSystemService(Context.POWER_SERVICE);
+		mWakeLock = powerMgr.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK,
+				this.getClass().getName());
+		if (mWakeLock != null) {
+			mWakeLock.acquire();
+		}
+	}
 
 }
