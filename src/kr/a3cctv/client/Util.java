@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
+import android.util.Log;
 import android.widget.Toast;
 
 public class Util {
@@ -15,6 +16,8 @@ public class Util {
 	public static final String KEY_TOKEN = "token";
 	
 	public static final int TIME_ALERT_MOVE = 3000;
+	
+	private static final String TAKE_PICTURE = "takePicture";
 	
 	public static boolean isGoogleTV(Context context) {
     	return context.getPackageManager().hasSystemFeature("com.google.android.tv");
@@ -51,9 +54,13 @@ public class Util {
 	}
 	
 	public static void openAlertAct (Context act, Intent intent) {
-		
+		String message = (String)intent.getExtras().get("message");
+		Log.d("message:", message);
 		
 		Intent i = new Intent (act, GCMActionActivity.class);
+		if (message.equals(TAKE_PICTURE)) {
+			i.putExtra("type", true);
+		} 
 		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		act.startActivity(i);
 	}
