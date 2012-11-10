@@ -68,12 +68,11 @@ public class LoginActivity extends Activity {
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
-				CookieSyncManager.getInstance().sync();
 				if (!url.contains("accounts.google.com") && url.contains(Util.SERVER_DOMAIN)) {
+					CookieSyncManager.getInstance().sync();
 					CookieManager cookieManager = CookieManager.getInstance();
 					String cookie = cookieManager.getCookie(Util.SERVER_DOMAIN);
-					Util.setToken(getApplicationContext(), cookie);
-					Log.d("cookie", cookie);
+					if (cookie != null) Util.setToken(getApplicationContext(), cookie);
 					if (Util.getToken(getApplicationContext()) != null) {
 						setResult(RESULT_OK);
 						finish();
