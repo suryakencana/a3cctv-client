@@ -1,5 +1,6 @@
 package kr.a3cctv.client;
 
+import kr.a3cctv.client.camera.Preview;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -49,4 +50,11 @@ public class Util {
 		Intent i = new Intent (act, WebViewActivity.class);
 		act.startActivity(i);
 	}
+	
+	public static void openAlertAct (Context act, Intent intent) {
+		Intent i = new Intent (act, GCMActionActivity.class);
+		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		act.startActivity(i);
+	}
+	
 }

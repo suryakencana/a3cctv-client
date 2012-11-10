@@ -2,7 +2,6 @@ package kr.a3cctv.client;
 
 import android.content.Context;
 import android.content.Intent;
-import android.widget.Toast;
 
 import com.google.android.gcm.GCMBaseIntentService;
 
@@ -14,7 +13,7 @@ public class GCMIntentService extends GCMBaseIntentService{
 
 	@Override
 	protected void onMessage(Context context, Intent intent) {
-		showDialog(context, intent);
+		openAlert(context, intent);
 	}
 
 	@Override
@@ -34,15 +33,12 @@ public class GCMIntentService extends GCMBaseIntentService{
 	private void unRegisterToServer(Context context, String resId){
 //		showToast(context, "서버에서 메시지를 받지 않게 되었습니다");
 	}
-	private void showDialog(Context context, Intent intent){
-		Intent i = new Intent(context, AlertActivity.class);
-		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		startActivity(i);
+	private void openAlert(Context context, Intent intent){
+		Util.openAlertAct(context, intent);	
+	}
+	
+	private void shotPhoto(Context context, Intent intent){
 		
 	}
 	
-	private void showToast(Context context, String msg){
-//		Log.d("test", msg);
-		Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-	}
 }
