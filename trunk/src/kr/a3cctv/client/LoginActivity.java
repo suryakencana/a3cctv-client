@@ -16,6 +16,7 @@ import org.apache.http.params.HttpParams;
 import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -103,7 +104,6 @@ public class LoginActivity extends Activity {
 			Log.d("regId","regId: "+GCMRegistrar.getRegistrationId(this));
 		} else {
 			Log.v(MainActivity.TAG, "Already registered");
-			Log.d("regId","regId: "+GCMRegistrar.getRegistrationId(this));
 		}
 		registerDevice(regId, this);
 	}
@@ -121,6 +121,7 @@ public class LoginActivity extends Activity {
 				
 				ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 				nameValuePairs.add(new BasicNameValuePair("regId", regId));
+				nameValuePairs.add(new BasicNameValuePair("modelName", Build.MODEL));
 				UrlEncodedFormEntity entityRequest;
 				try {
 					entityRequest = new UrlEncodedFormEntity(nameValuePairs, "UTF-8");
@@ -131,6 +132,7 @@ public class LoginActivity extends Activity {
 				
 				HttpParams parameters = httppost.getParams();
 				parameters.setParameter("regId", regId);
+				parameters.setParameter("modelName", Build.MODEL);
 				
 				httppost.setParams(parameters);
 				
