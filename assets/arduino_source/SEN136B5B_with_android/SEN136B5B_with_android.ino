@@ -4,9 +4,9 @@
 AndroidAccessory acc("A3CCTV Project Team",
 "A3CCTV",                  
 "A3CCTV",                  
-"1.0",                      
+"1.1",                      
 "https://play.google.com/store/apps/details?id=kr.a3cctv.client",
-"00000000000001");           
+"00000000000002");           
 
 
 const int STATUS_READY  = 0;
@@ -62,15 +62,20 @@ void loop()
       }
 
       data[0] = STATUS_WARMUP;
-
+      
+      Serial.print("Set Counnt ");
       Serial.print(baseLineCount);
       Serial.print(" ");
       Serial.println(baseLineTemp);
 
     } 
-    else {
+    else { 
+      Serial.print("distance");
+      Serial.print(" ");
+      Serial.println(distance);
+      
       digitalWrite(redPin, HIGH);
-      if ( distance < baseLine ) {
+      if ( distance < baseLine - 30 ) {
         Serial.println("shot");
         data[0] = STATUS_SHOT;
       }
@@ -85,6 +90,18 @@ void loop()
       delay(200); 
     }   
 
+  } 
+  else {
+    
+    baseLine = -1;
+    baseLineTemp = 0;
+    baseLineCount = 0;
+    
+    Serial.println("wait.. device");
+    digitalWrite(redPin, HIGH);
+    delay(200); 
+    digitalWrite(redPin, LOW);
+    delay(200); 
   }
 
 }
@@ -93,5 +110,6 @@ long microsecondsToCentimeters(long microseconds)
 {
   return microseconds / 29 / 2;
 }
+
 
 
