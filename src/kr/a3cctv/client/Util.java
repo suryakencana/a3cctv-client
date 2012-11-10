@@ -14,6 +14,8 @@ public class Util {
 	public static final String SHARED_DATA = "a3shared";
 	public static final String KEY_TOKEN = "token";
 	
+	public static final int TIME_ALERT_MOVE = 3000;
+	
 	public static boolean isGoogleTV(Context context) {
     	return context.getPackageManager().hasSystemFeature("com.google.android.tv");
     }

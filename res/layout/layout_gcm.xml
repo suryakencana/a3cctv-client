@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:text="경고!!!!"
+        android:text="@string/alert_title"
         android:textColor="#ffffff"
         android:textSize="30sp" />
 
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv1"
         android:layout_centerHorizontal="true"
-        android:text="사진이 업로드 되어 3초 후 화면이 이동 됩니다."
+        android:text="@string/alert_3_second"
         android:textColor="#000000"
         android:textSize="10sp" />
 
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv2"
         android:layout_centerHorizontal="true"
-        android:text="즉시 이동"
+        android:text="@string/alert_btn_move"
         android:textColor="#000000"
         android:textSize="18sp" />
 
