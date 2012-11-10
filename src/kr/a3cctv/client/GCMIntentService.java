@@ -2,10 +2,13 @@ package kr.a3cctv.client;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.google.android.gcm.GCMBaseIntentService;
 
 public class GCMIntentService extends GCMBaseIntentService{
+
+	private static final String TAKE_PICTURE = "takePicture";
 
 	@Override
 	protected void onError(Context context, String resId) {
@@ -13,7 +16,11 @@ public class GCMIntentService extends GCMBaseIntentService{
 
 	@Override
 	protected void onMessage(Context context, Intent intent) {
-		openAlert(context, intent);
+		String message = (String)intent.getExtras().get("message");
+		Log.d("message:", message);
+		if (message.equals(TAKE_PICTURE)) // TODO 사진 촬영
+			return;
+		else openAlert(context, intent);
 	}
 
 	@Override
