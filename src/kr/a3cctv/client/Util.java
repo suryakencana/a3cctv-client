@@ -1,6 +1,8 @@
 package kr.a3cctv.client;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
@@ -34,5 +36,15 @@ public class Util {
 	}
 	public static SharedPreferences loadPref(Context context){
 		return context.getSharedPreferences(SHARED_DATA, Context.MODE_PRIVATE);
+	}
+	
+	public static void openCameraAct (Activity act) {
+		Intent i = new Intent (act, CameraActivity.class);
+		act.startActivity(i);
+	}
+	
+	public static void openWebAct (Activity act) {
+		Intent i = new Intent (act, WebViewActivity.class);
+		act.startActivity(i);
 	}
 }

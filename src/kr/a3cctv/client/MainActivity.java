@@ -14,6 +14,7 @@ public class MainActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		startActivityForResult(new Intent(this, LoginActivity.class), REQ_LOGIN);
 	}
 	
@@ -37,7 +38,7 @@ public class MainActivity extends Activity {
 
 	private void startNextActivity(){
 		
-		if (Util.isGoogleTV(this) && !Util.hasCamera(this)) {
+		if (Util.isGoogleTV(this) || !Util.hasCamera(this)) {
 			//Only viewer
 			Intent i = new Intent(this, WebViewActivity.class);
 			startActivity(i);

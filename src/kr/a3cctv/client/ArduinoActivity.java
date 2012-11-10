@@ -101,6 +101,8 @@ public class ArduinoActivity extends Activity implements Runnable {
 		LinearLayout previewContainer = (LinearLayout) findViewById(R.id.previewContainer);
 		preview = new Preview(this);
 		previewContainer.addView(preview);
+		
+		wakeUpLocker();
 	}
 
 	@Override
