@@ -36,7 +36,7 @@ public class GCMActionActivity extends Activity implements
 	private Parameters parameters = null;
 	StorageService storageService = null;
 
-	boolean type = true; // true 사진찍기, false 사진업로드 됐단 알람
+	boolean type = false; // true 사진찍기, false 사진업로드 됐단 알람
 	
 	//TEST
 	ImageView iv;

@@ -100,9 +100,10 @@ public class LoginActivity extends Activity {
 		String regId = GCMRegistrar.getRegistrationId(this);
 		if (regId.equals("")) {
 			GCMRegistrar.register(this, SENDER_ID);
+			Log.d("regId","regId: "+GCMRegistrar.getRegistrationId(this));
 		} else {
 			Log.v(MainActivity.TAG, "Already registered");
-			Log.d("Ryukw82",GCMRegistrar.getRegistrationId(this));
+			Log.d("regId","regId: "+GCMRegistrar.getRegistrationId(this));
 		}
 		registerDevice(regId, this);
 	}
