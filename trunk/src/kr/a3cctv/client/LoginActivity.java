@@ -19,6 +19,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -55,10 +57,7 @@ public class LoginActivity extends Activity {
 					}
 				} else {
 					if(url.contains("auth=")){
-						String auth = url.substring(url.lastIndexOf("auth=")+5); //마지막 인자가 토큰
-						Util.setToken(getApplicationContext(), auth);
 						gcmRegister(); //로그인 되면 ~ 리시버들로 등록. 회원가입은 ? ㅎ
-						
 						setResult(RESULT_OK);
 						finish();
 					}
@@ -69,7 +68,12 @@ public class LoginActivity extends Activity {
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
+				CookieSyncManager.getInstance().sync();
 				if (!url.contains("accounts.google.com") && url.contains(Util.SERVER_DOMAIN)) {
+					CookieManager cookieManager = CookieManager.getInstance();
+					String cookie = cookieManager.getCookie(Util.SERVER_DOMAIN);
+					Util.setToken(getApplicationContext(), cookie);
+					Log.d("cookie", cookie);
 					if (Util.getToken(getApplicationContext()) != null) {
 						setResult(RESULT_OK);
 						finish();
@@ -94,7 +98,7 @@ public class LoginActivity extends Activity {
 		GCMRegistrar.checkDevice(this);
 		// permission 등.
 		GCMRegistrar.checkManifest(this);
-		final String regId = GCMRegistrar.getRegistrationId(this);
+		String regId = GCMRegistrar.getRegistrationId(this);
 		if (regId.equals("")) {
 			GCMRegistrar.register(this, SENDER_ID);
 		} else {
@@ -113,10 +117,10 @@ public class LoginActivity extends Activity {
 				HttpPost httppost = new HttpPost(Util.SERVER_DOMAIN+"/register");
 				
 				String auth = Util.getToken(context);
+				httppost.setHeader("Cookie", auth);
 				
 				ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 				nameValuePairs.add(new BasicNameValuePair("regId", regId));
-				nameValuePairs.add(new BasicNameValuePair("auth", auth));
 				UrlEncodedFormEntity entityRequest;
 				try {
 					entityRequest = new UrlEncodedFormEntity(nameValuePairs, "UTF-8");
@@ -127,7 +131,6 @@ public class LoginActivity extends Activity {
 				
 				HttpParams parameters = httppost.getParams();
 				parameters.setParameter("regId", regId);
-				parameters.setParameter("auth", auth);
 				
 				httppost.setParams(parameters);
 				
@@ -142,7 +145,8 @@ public class LoginActivity extends Activity {
 				return null;
 			}
 		};
-		task.execute();
+		
+		if (regId != "") task.execute();
 	}
 	
 }

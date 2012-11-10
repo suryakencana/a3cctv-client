@@ -66,13 +66,15 @@ public class StorageServiceImpl implements StorageService {
 
 				HttpClient httpclient = new DefaultHttpClient();
 				HttpPost httppost = new HttpPost(
-						Util.SERVER_DOMAIN+"/uploadImage?auth="+auth);
+						Util.SERVER_DOMAIN+"/uploadImage");
 				MultipartEntity entity = new MultipartEntity();
+				
+				httppost.setHeader("Cookie", auth);
 
 				try {
 					entity.addPart("location", new StringBody(""));
 				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
+					throw new RuntimeException(e);
 				}
 				entity.addPart("imageFile", new ByteArrayBody(data,
 						"image/jpeg", filename));
@@ -83,7 +85,7 @@ public class StorageServiceImpl implements StorageService {
 					Log.d(this.getClass().getSimpleName(), response
 							.getStatusLine().toString());
 				} catch (IOException e) {
-					e.printStackTrace();
+					throw new RuntimeException(e);
 				}
 
 				return null;
