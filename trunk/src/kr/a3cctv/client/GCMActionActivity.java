@@ -47,6 +47,8 @@ public class GCMActionActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_gcm);
 		
+		type = getIntent().getBooleanExtra("type", false);
+		
 		iv = (ImageView) findViewById(R.id.test);
 
 		TextView title = (TextView) findViewById(R.id.title);
