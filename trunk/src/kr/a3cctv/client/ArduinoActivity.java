@@ -28,25 +28,23 @@ import android.widget.Toast;
 
 public class ArduinoActivity extends Activity implements Runnable {
 
-	private final int STATUS_READY = 0;
-	private final int STATUS_SHOT = 1;
-	private final int STATUS_WARMUP = 2;
-
 	private static final String TAG = "A3CCTV_CLIENT";
 	private static final String ACTION_USB_PERMISSION = "A3CCTV.USB_PERMISSION";
-	private static final int MESSAGE_ECHO = 1;
+
+	private static final int MESSAGE_ECHO = 9342;
+
+	private static final int STATUS_READY = 0;
+	private static final int STATUS_SHOT = 1;
+	private static final int STATUS_WARMUP = 2;
 
 	private boolean mPermissionRequestPending = false;
 	private UsbManager mUsbManager = null;
 	private UsbAccessory mAccessory;
-	ParcelFileDescriptor mFileDescriptor;
-	FileInputStream mInputStream;
-	FileOutputStream mOutputStream;
-
-	Preview preview;
-
+	private ParcelFileDescriptor mFileDescriptor;
+	private FileInputStream mInputStream;
+	private FileOutputStream mOutputStream;
+	private Preview preview;
 	private PendingIntent mPermissionIntent;
-
 	private WakeLock mWakeLock;
 
 	private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
@@ -56,7 +54,6 @@ public class ArduinoActivity extends Activity implements Runnable {
 			String action = intent.getAction();
 			if (ACTION_USB_PERMISSION.equals(action)) {
 				synchronized (this) {
-					// UsbAccessory accessory = UsbManager.getAccessory(intent);
 					UsbAccessory accessory = (UsbAccessory) intent
 							.getParcelableExtra(UsbManager.EXTRA_ACCESSORY);
 
@@ -70,7 +67,6 @@ public class ArduinoActivity extends Activity implements Runnable {
 					mPermissionRequestPending = false;
 				}
 			} else if (UsbManager.ACTION_USB_ACCESSORY_DETACHED.equals(action)) {
-				// UsbAccessory accessory = UsbManager.getAccessory(intent);
 				UsbAccessory accessory = (UsbAccessory) intent
 						.getParcelableExtra(UsbManager.EXTRA_ACCESSORY);
 				if (accessory != null && accessory.equals(mAccessory)) {
@@ -101,14 +97,14 @@ public class ArduinoActivity extends Activity implements Runnable {
 		LinearLayout previewContainer = (LinearLayout) findViewById(R.id.previewContainer);
 		preview = new Preview(this);
 		previewContainer.addView(preview);
-		
+
 		wakeUpLocker();
 	}
 
 	@Override
 	protected void onPause() {
-		super.onPause();
 		preview.disableOel();
+		super.onPause();
 	}
 
 	@Override
@@ -123,11 +119,9 @@ public class ArduinoActivity extends Activity implements Runnable {
 	@Override
 	public void onResume() {
 		super.onResume();
-
 		if (mInputStream != null && mOutputStream != null) {
 			return;
 		}
-
 		UsbAccessory[] accessories = mUsbManager.getAccessoryList();
 		UsbAccessory accessory = (accessories == null ? null : accessories[0]);
 		if (accessory != null) {
@@ -141,6 +135,7 @@ public class ArduinoActivity extends Activity implements Runnable {
 						mPermissionRequestPending = true;
 					}
 				}
+
 			}
 		} else {
 			Log.d(TAG, "mAccessory is null");
