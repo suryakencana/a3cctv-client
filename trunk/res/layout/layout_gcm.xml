@@ -6,20 +6,20 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/tv1"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:text="@string/alert_title"
+        android:text="@string/alert_title_noti"
         android:textColor="#ffffff"
         android:textSize="30sp" />
 
     <TextView
-        android:id="@+id/tv2"
+        android:id="@+id/desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv1"
+        android:layout_below="@id/title"
         android:layout_centerHorizontal="true"
         android:text="@string/alert_3_second"
         android:textColor="#000000"
@@ -29,10 +29,24 @@
         android:id="@+id/btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv2"
+        android:layout_below="@id/desc"
         android:layout_centerHorizontal="true"
         android:text="@string/alert_btn_move"
         android:textColor="#000000"
+        android:visibility="gone"
         android:textSize="18sp" />
-
+    
+    <SurfaceView
+        android:id="@+id/zeroSize"
+        android:layout_width="4dp"
+        android:layout_height="4dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"/>
+    
+    <ImageView
+        android:id="@+id/test"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        />
+    
 </RelativeLayout>

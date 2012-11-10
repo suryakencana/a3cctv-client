@@ -86,7 +86,7 @@
                 android:resource="@xml/accessory_filter" />
         </activity>
         <activity
-            android:name=".AlertActivity"
+            android:name=".GCMActionActivity"
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
