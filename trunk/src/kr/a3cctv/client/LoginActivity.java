@@ -1,6 +1,21 @@
 package kr.a3cctv.client;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.HttpParams;
+
 import android.app.Activity;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -86,6 +101,48 @@ public class LoginActivity extends Activity {
 			Log.v(MainActivity.TAG, "Already registered");
 			Log.d("Ryukw82",GCMRegistrar.getRegistrationId(this));
 		}
+		registerDevice(regId, this);
+	}
+	
+	public void registerDevice(final String regId, final Context context) {
+		AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
+
+			@Override
+			protected Void doInBackground(Void... params) {
+				HttpClient httpclient = new DefaultHttpClient();
+				HttpPost httppost = new HttpPost(Util.SERVER_DOMAIN+"/register");
+				
+				String auth = Util.getToken(context);
+				
+				ArrayList<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+				nameValuePairs.add(new BasicNameValuePair("regId", regId));
+				nameValuePairs.add(new BasicNameValuePair("auth", auth));
+				UrlEncodedFormEntity entityRequest;
+				try {
+					entityRequest = new UrlEncodedFormEntity(nameValuePairs, "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					throw new RuntimeException();
+				}
+				httppost.setEntity(entityRequest);
+				
+				HttpParams parameters = httppost.getParams();
+				parameters.setParameter("regId", regId);
+				parameters.setParameter("auth", auth);
+				
+				httppost.setParams(parameters);
+				
+				HttpResponse response;
+				try {
+					response = httpclient.execute(httppost);
+					Log.d(this.getClass().getSimpleName(), response
+							.getStatusLine().toString());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+		};
+		task.execute();
 	}
 	
 }
