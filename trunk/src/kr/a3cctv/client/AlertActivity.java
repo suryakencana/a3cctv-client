@@ -9,7 +9,7 @@ import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 
-public class DialogActivity extends Activity {
+public class AlertActivity extends Activity {
 
 	private static final int REFRESH_INTERVAL = 3000;
 
@@ -24,7 +24,7 @@ public class DialogActivity extends Activity {
 		
 		Button btn = (Button) findViewById(R.id.btn);
 
-		if (Util.isGoogleTV(DialogActivity.this)) {
+		if (Util.isGoogleTV(AlertActivity.this)) {
 			btn.setVisibility(View.GONE);
 		} else {
 
@@ -55,7 +55,7 @@ public class DialogActivity extends Activity {
 
 	private void moveWebview() {
 		if (!isAlreadyMove) {
-			Intent i = new Intent(DialogActivity.this, WebViewActivity.class);
+			Intent i = new Intent(AlertActivity.this, WebViewActivity.class);
 			startActivity(i);
 			isAlreadyMove = true;
 			finish();
