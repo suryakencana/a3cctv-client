@@ -1,8 +1,6 @@
 package kr.a3cctv.client;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,21 +9,17 @@ import android.widget.Button;
 
 public class AlertActivity extends Activity {
 
-	private static final int REFRESH_INTERVAL = 3000;
-
-	private boolean isAlreadyMove = false;
-
-	Context context;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_gcm);
-		
+
 		Button btn = (Button) findViewById(R.id.btn);
 
 		if (Util.isGoogleTV(AlertActivity.this)) {
+
 			btn.setVisibility(View.GONE);
+
 		} else {
 
 			btn.setOnClickListener(new View.OnClickListener() {
@@ -38,7 +32,7 @@ public class AlertActivity extends Activity {
 
 		}
 
-		timer.sendEmptyMessageDelayed(0, REFRESH_INTERVAL);
+		timer.sendEmptyMessageDelayed(0, Util.TIME_ALERT_MOVE);
 
 	}
 
@@ -47,19 +41,22 @@ public class AlertActivity extends Activity {
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
-
 			moveWebview();
 
 		}
 	};
 
 	private void moveWebview() {
-		if (!isAlreadyMove) {
-			Intent i = new Intent(AlertActivity.this, WebViewActivity.class);
-			startActivity(i);
-			isAlreadyMove = true;
-			finish();
+		Util.openWebAct(AlertActivity.this);
+		finish();
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (timer.hasMessages(0)) {
+			timer.removeMessages(0);
 		}
+		super.onDestroy();
 	}
 
 }
