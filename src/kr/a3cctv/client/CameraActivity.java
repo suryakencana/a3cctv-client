@@ -55,7 +55,5 @@ public class CameraActivity extends Activity {
 	protected void onStop() {
 		super.onStop();
 	}
-	
-	
 
 }

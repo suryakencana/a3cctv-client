@@ -54,9 +54,9 @@ public class Preview extends SurfaceView implements SurfaceHolder.Callback,
 					rotation = (info.orientation + orientation) % 360;
 				}
 //				if(camera!=null){
-					Camera.Parameters parameters = camera.getParameters();
-					parameters.setRotation(rotation);
-					camera.setParameters(parameters);
+//					Camera.Parameters parameters = camera.getParameters();
+//					parameters.setRotation(rotation);
+//					camera.setParameters(parameters);
 //					camera.setDisplayOrientation(rotation);
 //				}
 			}
@@ -84,8 +84,9 @@ public class Preview extends SurfaceView implements SurfaceHolder.Callback,
 	}
 
 	public void surfaceCreated(SurfaceHolder holder) {
-		camera = Camera.open();
+		
 		try {
+			camera = Camera.open();
 			camera.setPreviewDisplay(holder);
 			enableOel();
 //			 camera.setDisplayOrientation(90);
