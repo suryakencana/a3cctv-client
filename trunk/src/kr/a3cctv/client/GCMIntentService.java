@@ -13,7 +13,7 @@ public class GCMIntentService extends GCMBaseIntentService{
 
 	@Override
 	protected void onMessage(Context context, Intent intent) {
-		openAlert(context, intent);
+		Util.openAlertAct(context, intent);
 	}
 
 	@Override
@@ -33,8 +33,5 @@ public class GCMIntentService extends GCMBaseIntentService{
 	}
 	private void unRegisterToServer(Context context, String resId){
 //		showToast(context, "서버에서 메시지를 받지 않게 되었습니다");
-	}
-	private void openAlert(Context context, Intent intent){
-		Util.openAlertAct(context, intent);	
 	}	
 }

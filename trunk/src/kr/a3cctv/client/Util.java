@@ -80,6 +80,14 @@ public class Util {
 		act.startActivity(i);
 	}
 	
+	public static boolean checkManifestPermission(Context context, String permissionName){
+		if (context.checkCallingOrSelfPermission(permissionName) == PackageManager.PERMISSION_GRANTED){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	public static void registerDevice(final String regId, final Context context) {
 		AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
 
