@@ -10,8 +10,6 @@ import android.widget.RelativeLayout;
 
 public class CameraActivity extends Activity {
 
-	private Preview preview;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -20,7 +18,7 @@ public class CameraActivity extends Activity {
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
-		preview = new Preview(this);
+		Preview preview = new Preview(this);
 
 		ImageButton btn = new ImageButton(CameraActivity.this);
 		btn.setImageResource(R.drawable.monitor);
@@ -43,17 +41,6 @@ public class CameraActivity extends Activity {
 
 		setContentView(layoutContainer);
 
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		preview.disableOel();
-	}
-
-	@Override
-	protected void onStop() {
-		super.onStop();
 	}
 
 }

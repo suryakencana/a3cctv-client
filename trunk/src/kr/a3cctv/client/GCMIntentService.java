@@ -13,7 +13,13 @@ public class GCMIntentService extends GCMBaseIntentService{
 
 	@Override
 	protected void onMessage(Context context, Intent intent) {
-		Util.openAlertAct(context, intent);
+		if (Util.AmIWorking(context)) {
+			
+		} else {
+			Util.openAlertAct(context, intent);
+		}
+		
+		
 	}
 
 	@Override

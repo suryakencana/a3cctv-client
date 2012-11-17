@@ -3,6 +3,7 @@ package kr.a3cctv.client;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -14,6 +15,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpParams;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -119,8 +122,9 @@ public class Util {
 				HttpResponse response;
 				try {
 					response = httpclient.execute(httppost);
-					Log.d(this.getClass().getSimpleName(), response
-							.getStatusLine().toString());
+					Log.d(this.getClass().getSimpleName(), "registerDevice " + response.getStatusLine().toString());
+					Log.d(this.getClass().getSimpleName(), "registerDevice " + regId);
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -129,5 +133,15 @@ public class Util {
 		};
 		
 		if (regId != "") task.execute();
+	}
+	
+	public static boolean AmIWorking(Context context) {
+		
+		ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningTaskInfo> Info = am.getRunningTasks(1);
+		ComponentName topActivity = Info.get(0).topActivity;
+		String topactivityname = topActivity.getPackageName();
+		
+		return topactivityname.equals(context.getPackageName());
 	}
 }

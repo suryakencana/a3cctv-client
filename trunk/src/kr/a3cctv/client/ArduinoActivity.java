@@ -103,7 +103,7 @@ public class ArduinoActivity extends Activity implements Runnable {
 
 	@Override
 	protected void onPause() {
-		preview.disableOel();
+//		preview.disableOel();
 		super.onPause();
 	}
 
