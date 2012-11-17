@@ -16,9 +16,14 @@ const int STATUS_WARMUP = 2;
 const int rangePin = 7;
 const int redPin = 11;
 
+const int temp = 10;
+
+
 static int baseLine = -1;
 static int baseLineTemp = 0;
 static int baseLineCount = 0;
+
+
 
 boolean isConnected = false;
 
@@ -75,7 +80,8 @@ void loop()
       Serial.println(distance);
       
       digitalWrite(redPin, HIGH);
-      if ( distance < baseLine - 30 ) {
+     // if ( distance < baseLine - temp ) {
+      if ( 90 < distance && distance < 110  ) {
         Serial.println("shot");
         data[0] = STATUS_SHOT;
       }
